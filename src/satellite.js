@@ -28,6 +28,9 @@ function getTable(config) {
 	let counter = config.counter || 0;
 	const opt = config.opt || 0;
 	const basedir = `${config.root}satellite${config.target}/`;
+
+	let options;
+	
 	if (counter === 0) {
 		options = utils.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		if (!fs.existsSync(basedir)) {
