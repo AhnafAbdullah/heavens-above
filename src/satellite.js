@@ -29,6 +29,9 @@ function getTable(config) {
 	const opt = config.opt || 0;
 	const basedir = `${config.root}satellite${config.target}/`;
 	
+	let options;
+	let current;
+
 	if (counter === 0) {
 		options = utils.get_options(`PassSummary.aspx?satid=${config.target}&`);
 		if (!fs.existsSync(basedir)) {
@@ -144,7 +147,7 @@ function getTable(config) {
 						return ele;
 					});
 				}
-				database = database.map((ele, index) => {
+				database = database.map((ele) => {
 					if (isNaN(ele[property[6]][1])) {
 						ele[property[8]] = 0;
 						return ele;
