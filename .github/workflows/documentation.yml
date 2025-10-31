@@ -1,0 +1,45 @@
+name: Documentation Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Needed to push to gh-pages branch
+
+jobs:
+  build-and-deploy-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies (if any)
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          fi
+
+      - name: Prepare documentation
+        run: |
+          mkdir -p public
+          cp README.md public/
+          cp docs/Workflow\ Documentation.docx public/ || echo "No .docx found, skipping."
+          echo "<h1>Heavens Above Documentation</h1>" > public/index.html
+          echo "<p>Generated on $(date)</p>" >> public/index.html
+          echo "<ul><li><a href='README.md'>README.md</a></li><li><a href='Workflow Documentation.docx'>Workflow Documentation.docx</a></li></ul>" >> public/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
