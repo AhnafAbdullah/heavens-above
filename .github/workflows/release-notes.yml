@@ -1,0 +1,28 @@
+name: Automated Release Notes
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'   # Runs when a version tag (like v1.0.0) is pushed
+
+jobs:
+  generate-release:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate release notes
+        id: notes
+        uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Display generated release notes
+        run: |
+          echo "✅ Release notes have been generated successfully."
+          echo "Check the Releases section on GitHub for details."
