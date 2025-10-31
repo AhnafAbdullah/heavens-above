@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Monitor npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"   # check once per week
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    reviewers:
+      - "AhnafAbdullah" 
+    labels:
+      - "dependencies"
+      - "automated-update"
+    ignore:
+      - dependency-name: "eslint"
+        versions: ["<8.0.0"]
+
+  # Monitor GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
