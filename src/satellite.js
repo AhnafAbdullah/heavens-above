@@ -10,7 +10,7 @@ const attribute = ["time", "altitude", "azimuth", "distance", "brightness", "sun
 const compare = [
 	function(a, b) {
 		return a[property[6]][1] >= b[property[6]][1] ? 1 : -1; //星等（越小越好）
-	},
+	}, 
 	function(a, b) {
 		return a[property[6]][2] >= b[property[6]][2] ? 1 : -1; //太阳高度（越小越好）
 	},
